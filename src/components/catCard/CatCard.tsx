@@ -11,7 +11,7 @@ function CatCard({
   desc: string;
   }) {
   return (
-    <Link to="/gigs?cat=design">
+    <Link to="/gigs?category=design">
       <div className="catCard">
         <img src={img} alt="" />
         <span className="desc">{desc}</span>

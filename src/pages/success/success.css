@@ -1,0 +1,42 @@
+/* Container styles */
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.success-message {
+  font-size: 24px;
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+.redirect-info {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Spinner (optional) */
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #28a745;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-top: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}/*# sourceMappingURL=success.css.map */

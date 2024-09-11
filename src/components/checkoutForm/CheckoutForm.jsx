@@ -5,7 +5,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-
+import "./checkout.scss";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
