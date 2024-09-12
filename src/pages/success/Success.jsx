@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import newRequest from "../../utils/newRequest";
 import "./success.scss"; // Import the CSS file
 
@@ -14,7 +14,7 @@ const Success = () => {
       try {
         await newRequest.put("/orders", { payment_intent });
         setTimeout(() => {
-          navigate("/orders");
+          navigate("/");
         }, 5000);
       } catch (err) {
         console.log(err);

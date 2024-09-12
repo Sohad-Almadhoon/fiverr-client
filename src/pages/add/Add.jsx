@@ -18,6 +18,7 @@ const Add = () => {
       payload: { name: e.target.name, value: e.target.value },
     });
   };
+  console.log(state)
   const handleFeature = (e) => {
     e.preventDefault();
     dispatch({
@@ -81,9 +82,9 @@ const Add = () => {
               id="cat"
               onChange={handleChange}
               defaultValue="design">
-              <option value="design">Design</option>
-              <option value="web">Web Development</option>
               <option value="animation">Animation</option>
+              <option value="web">Web Development</option>
+              <option value="design">Design</option>
               <option value="music">Music</option>
             </select>
             <div className="images">

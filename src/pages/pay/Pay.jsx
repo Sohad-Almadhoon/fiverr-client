@@ -40,7 +40,7 @@ const Pay = () => {
   return <div className="pay">
     {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+        <CheckoutForm />
         </Elements>
       )}
   </div>;
