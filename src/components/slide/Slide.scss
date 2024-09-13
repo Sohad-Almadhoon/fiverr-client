@@ -2,29 +2,35 @@
   display: flex;
   justify-content: center;
   padding: 100px 0px;
-  
   .container {
     width: 1400px;
     position: relative;
   }
-
   .carousel-initialized {
     position: static;
   }
+}
+.prev-arrow,
+.next-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
 
-  .carousel-prev,
-  .carousel-next {
-    width: 50px;
-    height: 50px;
-    background-color: rgb(243, 243, 243);
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-  }
+.prev-arrow {
+  left: -5px;
+}
 
-  .carousel-prev {
-    left: -25px;
-  }
+.next-arrow {
+  right: 10px;
+}
+
+.custom-prev:hover,
+.custom-next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }
