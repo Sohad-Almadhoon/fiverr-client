@@ -31,6 +31,7 @@ const Navbar = () => {
   }
 
   useEffect(() => {
+    let timeout
     if (currentUser) {
       async function authUser() {
         try {
@@ -41,8 +42,13 @@ const Navbar = () => {
           window.location.reload()
         }
       }
+      timeout = setTimeout(() => {
+        authUser()
+      }, 5000)
+    }
 
-      authUser()
+    return () => {
+      clearTimeout(timeout)
     }
   }, [currentUser])
 
