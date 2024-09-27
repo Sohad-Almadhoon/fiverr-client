@@ -30,27 +30,21 @@ const Navbar = () => {
     }
   }
 
-  useEffect(() => {
-    let timeout
-    if (currentUser) {
-      async function authUser() {
-        try {
-          await newRequest.get('/auth/verify')
-        } catch (error) {
-          console.error(error)
-          localStorage.setItem('currentUser', null)
-          window.location.reload()
-        }
-      }
-      timeout = setTimeout(() => {
-        authUser()
-      }, 5000)
-    }
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     async function authUser() {
+  //       try {
+  //         await newRequest.get('/auth/verify')
+  //       } catch (error) {
+  //         console.error(error)
+  //         localStorage.setItem('currentUser', null)
+  //         window.location.reload()
+  //       }
+  //     }
 
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [currentUser])
+  //     authUser()
+  //   }
+  // }, [currentUser])
 
   return (
     <div className={active || pathname !== '/' ? 'navbar active' : 'navbar'}>
