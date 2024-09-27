@@ -30,21 +30,21 @@ const Navbar = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     async function authUser() {
-  //       try {
-  //         await newRequest.get('/auth/verify')
-  //       } catch (error) {
-  //         console.error(error)
-  //         localStorage.setItem('currentUser', null)
-  //         window.location.reload()
-  //       }
-  //     }
+  useEffect(() => {
+    if (currentUser) {
+      async function authUser() {
+        try {
+          await newRequest.get('/auth/verify')
+        } catch (error) {
+          console.error(error)
+          localStorage.setItem('currentUser', null)
+          window.location.reload()
+        }
+      }
 
-  //     authUser()
-  //   }
-  // }, [currentUser])
+      authUser()
+    }
+  }, [currentUser])
 
   return (
     <div className={active || pathname !== '/' ? 'navbar active' : 'navbar'}>
