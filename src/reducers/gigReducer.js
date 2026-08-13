@@ -1,7 +1,9 @@
- const INITIAL_STATE = {
-  userId: JSON.parse(localStorage.getItem("currentUser"))?._id,
+// No userId here: the API assigns it from the auth token, and sending one from
+// the client let a caller create gigs under someone else's account.
+const INITIAL_STATE = {
   title: "",
-  cat: "",
+  // Must be a slug from src/data.ts; the API validates against the same list.
+  cat: "graphics-design",
   cover: "",
   images: [],
   desc: "",

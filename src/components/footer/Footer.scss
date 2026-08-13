@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as *;
+
 .footer {
   display: flex;
   justify-content: center;
@@ -10,10 +12,18 @@
   }
 
   .container {
-    width: 1400px;
+    @include page-container;
     .top {
       display: flex;
       justify-content: space-between;
+
+      // Five link columns wrap into a readable grid instead of overflowing.
+      @include md {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 32px;
+      }
+
       .item {
         display: flex;
         flex-direction: column;
@@ -38,22 +48,35 @@
       align-items: center;
       justify-content: space-between;
 
+      @include md {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      // width:max-content refused to shrink, so this row stayed 461px wide and
+      // pushed every page 100px past a 375px screen.
       .left {
-        width: max-content;
+        max-width: 100%;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 20px;
 
         span {
           font-size: 13px;
-          white-space: nowrap;
         }
       }
       .right {
-        width: max-content;
+        max-width: 100%;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         gap: 30px;
+
+        @include sm {
+          gap: 16px;
+        }
 
         .social {
           display: flex;
@@ -64,6 +87,7 @@
           display: flex;
           align-items: center;
           gap: 10px;
+          white-space: nowrap;
         }
       }
     }

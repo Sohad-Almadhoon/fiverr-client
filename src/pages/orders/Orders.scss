@@ -1,15 +1,27 @@
- .orders {
+@use "../../styles/breakpoints" as *;
+
+.orders {
   display: flex;
   justify-content: center;
   color: #555;
 
   .container {
-    width: 1400px;
-    padding: 50px 0px;
+    @include page-container;
+    padding-top: 50px;
+    padding-bottom: 50px;
 
     .title {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      h1 {
+        @include sm {
+          font-size: 26px;
+        }
+      }
 
       button {
         background-color: #1dbf73;
@@ -23,6 +35,7 @@
 
     table {
       width: 100%;
+      border-collapse: collapse;
 
       tr {
         height: 50px;
@@ -30,8 +43,7 @@
           text-align: left;
         }
         td {
-          
-          sup{
+          sup {
             font-size: 12px;
           }
 
@@ -45,11 +57,32 @@
             width: 25px;
             cursor: pointer;
           }
+
+          // Distinguishes a sale from a purchase now that both are listed.
+          .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+
+            &.sale {
+              color: #1dbf73;
+              background-color: #e8f8f0;
+            }
+
+            &.purchase {
+              color: #4a6cf7;
+              background-color: #eaefff;
+            }
+          }
         }
         &:nth-child(even) {
           background-color: #1dbf730f;
         }
       }
+
+      @include responsive-table;
     }
   }
 }

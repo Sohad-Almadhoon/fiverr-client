@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as *;
+
 .featured {
   height: 600px;
   display: flex;
@@ -5,8 +7,14 @@
   background-color: #013914;
   color: white;
 
+  // A fixed 600px hero crops its own content once the text wraps.
+  @include md {
+    height: auto;
+    padding: 60px 0;
+  }
+
   .container {
-    width: 1400px;
+    @include page-container;
     display: flex;
     align-items: center;
 
@@ -14,9 +22,19 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
+      flex: 1;
+      min-width: 0;
 
       h1 {
         font-size: 50px;
+
+        @include md {
+          font-size: 38px;
+        }
+
+        @include sm {
+          font-size: 30px;
+        }
 
         span {
           font-style: italic;
@@ -24,11 +42,12 @@
         }
       }
 
+      // Now a <form> so Enter submits; the layout rules are unchanged.
       .search {
         background-color: white;
         border-radius: 5px;
         display: flex;
-        align-items: center;
+        align-items: stretch;
         justify-content: space-between;
         overflow: hidden;
 
@@ -36,6 +55,9 @@
           display: flex;
           align-items: center;
           gap: 10px;
+          flex: 1;
+          min-width: 0;
+
           img {
             width: 20px;
             height: 20px;
@@ -45,6 +67,11 @@
           input {
             border: none;
             outline: none;
+            // Inputs have a default size that refuses to shrink; without this
+            // the search bar pushes the page wider than the screen.
+            width: 100%;
+            min-width: 0;
+            padding: 10px 0;
 
             &::placeholder {
               color: gray;
@@ -58,8 +85,13 @@
           border: none;
           background-color: #1dbf73;
           color: white;
-          align-self: flex-end;
+          align-self: stretch;
+          flex-shrink: 0;
           cursor: pointer;
+
+          @include xs {
+            width: 90px;
+          }
         }
       }
 
@@ -67,6 +99,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        flex-wrap: wrap;
 
         span {
           width: max-content;
@@ -76,19 +109,32 @@
           width: max-content;
           color: white;
           border: 1px solid white;
-          padding: 5px 10px;
+          padding: 5px 12px;
           border-radius: 20px;
           background-color: transparent;
           font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.2s, color 0.2s;
+
+          &:hover {
+            background-color: white;
+            color: #013914;
+          }
         }
       }
     }
 
     .right {
       height: 100%;
+
       img {
         height: 100%;
         object-fit: contain;
+      }
+
+      // The illustration is decorative; drop it before it squeezes the copy.
+      @include md {
+        display: none;
       }
     }
   }

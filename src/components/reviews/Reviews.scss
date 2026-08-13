@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as *;
+
 .reviews {
   margin-top: 50px;
 
@@ -14,12 +16,18 @@
 
       input {
         padding: 20px;
+        width: 100%;
       }
 
       select {
         width: 200px;
         padding: 20px;
         align-self: flex-end;
+
+        @include xs {
+          width: 100%;
+          align-self: stretch;
+        }
       }
       button {
         align-self: flex-end;
@@ -29,7 +37,47 @@
         color: white;
         background-color: #1dbf73;
         cursor: pointer;
+
+        @include xs {
+          width: 100%;
+          align-self: stretch;
+          padding: 16px;
+        }
       }
+    }
+
+    // Shown instead of the form when the viewer isn't eligible to review.
+    .reviewNotice {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 16px;
+      border: 1px dashed #dadbdd;
+      border-radius: 8px;
+      background-color: #fbfbfb;
+      color: #62646a;
+      font-size: 15px;
+
+      .link {
+        color: #1dbf73;
+        font-weight: 600;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .error {
+      padding: 12px 14px;
+      border: 1px solid #e0b4b4;
+      border-left: 4px solid #d0021b;
+      border-radius: 4px;
+      background-color: #fff6f6;
+      color: #9f3a38;
+      font-size: 15px;
+      line-height: 1.5;
     }
   }
 

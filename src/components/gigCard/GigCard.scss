@@ -1,26 +1,60 @@
-.gigCard {
-  width: 324px;
-  height: 400px;
-  // border: 1px solid rgb(237, 236, 236);
-  border: 1px solid rgb(228, 228, 228);
-  margin-bottom: 40px;
+@use "../../styles/breakpoints" as *;
 
-  img {
-    width: 100%;
-    height: 50%;
-    object-fit: cover;
+.gigCardLink {
+  display: block;
+  width: 100%;
+  max-width: 324px;
+}
+
+.gigCard {
+  // Fluid so the card fits its grid track instead of forcing 324px, and auto
+  // height so a long title can never spill past a hard 400px box.
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e4e5e7;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+
+    .cover img {
+      transform: scale(1.04);
+    }
+  }
+
+  .cover {
+    // Fixed ratio keeps every card in a row the same height regardless of the
+    // source image dimensions.
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: #f5f5f5;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
   }
 
   .info {
-    padding: 10px 20px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
+    flex: 1;
 
     .user {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      min-height: 26px;
 
       img {
         width: 26px;
@@ -30,17 +64,53 @@
       }
 
       span {
+        font-size: 14px;
+        font-weight: 500;
+        color: #62646a;
+      }
+
+      // Reserves the row while the seller loads so the card does not jump.
+      &.placeholder {
+        border-radius: 4px;
+        background: linear-gradient(90deg, #f2f2f2 25%, #e9e9e9 50%, #f2f2f2 75%);
+        background-size: 200% 100%;
+        animation: gigcard-shimmer 1.2s infinite;
       }
     }
 
-    p {
-      color: #111;
+    .title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: #404145;
+      // Two lines max, then an ellipsis.
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 44px;
+    }
+
+    .desc {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #74767e;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      overflow-wrap: anywhere;
     }
 
     .star {
       display: flex;
       align-items: center;
       gap: 5px;
+      margin-top: auto;
 
       img {
         height: 14px;
@@ -52,21 +122,33 @@
         font-weight: bold;
         color: #ffc108;
       }
+
+      small {
+        font-size: 13px;
+        color: #b5b6ba;
+      }
+
+      .noRating {
+        color: #b5b6ba;
+      }
     }
   }
 
   hr {
+    width: 100%;
     height: 0;
-    border: 0.5px solid rgb(228, 228, 228);
+    margin: 0;
+    border: none;
+    border-top: 1px solid #e4e5e7;
   }
 
   .detail {
-    padding: 10px 20px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    img {
+    .heart {
       width: 16px;
       height: 16px;
       cursor: pointer;
@@ -74,22 +156,38 @@
     }
 
     .price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
       span {
         color: #999;
-        font-size: 12px;
+        font-size: 11px;
+        letter-spacing: 0.4px;
       }
 
       h2 {
-        color: #555;
+        margin: 0;
+        color: #404145;
         font-size: 18px;
-        font-weight: 400;
-        text-align: end;
-      }
-
-      sup {
-        font-size: 12px;
-        font-weight: 300;
+        font-weight: 600;
       }
     }
+  }
+}
+
+@keyframes gigcard-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gigCard,
+  .gigCard .cover img {
+    transition: none;
+  }
+  .gigCard .info .user.placeholder {
+    animation: none;
   }
 }

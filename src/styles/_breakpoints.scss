@@ -1,0 +1,96 @@
+// Shared breakpoints. The project had zero media queries, and every container
+// used a hard `width: 1400px`, so anything under 1400px scrolled sideways.
+$bp-xl: 1400px; // desktop container ceiling
+$bp-lg: 1200px;
+$bp-md: 1024px; // tablet landscape
+$bp-sm: 768px; // tablet portrait / large phone
+$bp-xs: 480px; // phone
+
+@mixin below($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @include below($bp-lg) {
+    @content;
+  }
+}
+@mixin md {
+  @include below($bp-md) {
+    @content;
+  }
+}
+@mixin sm {
+  @include below($bp-sm) {
+    @content;
+  }
+}
+@mixin xs {
+  @include below($bp-xs) {
+    @content;
+  }
+}
+
+// Replaces `width: 1400px`. Fills narrow screens instead of overflowing them.
+@mixin page-container($max: $bp-xl) {
+  width: 100%;
+  max-width: $max;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  @include sm {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+// Turns a data table into stacked cards below $bp-sm. Each <td> needs a
+// data-label attribute, which becomes the row heading. A four-column table is
+// unreadable on a 375px screen otherwise.
+@mixin responsive-table {
+  @include sm {
+    thead {
+      display: none;
+    }
+
+    tbody,
+    tr,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      height: auto !important;
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border: 1px solid #e4e5e7;
+      border-radius: 8px;
+      background-color: white;
+    }
+
+    td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0 !important;
+      border-bottom: 1px solid #f1f1f1;
+      text-align: right;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #62646a;
+        text-align: left;
+        flex-shrink: 0;
+      }
+    }
+  }
+}

@@ -1,184 +1,94 @@
-export const cards = [
+// Single source of truth for categories. Mirrors fiverr-api/utils/categories.js
+// — the slugs must match or filtering silently returns nothing.
+// Previously the gig form offered 4 values while the navbar and home page
+// advertised ten unrelated ones, so no link ever matched a real gig.
+export type Category = {
+  cat: string;
+  title: string;
+  desc: string;
+  img: string;
+  icon: string;
+};
+
+export const categories: Category[] = [
   {
-    id: 1,
-    title: "AI Artists",
-    desc: "Add talent to AI",
-    img: "https://images.pexels.com/photos/7532110/pexels-photo-7532110.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-  },
-  {
-    id: 2,
-    title: "Logo Design",
-    desc: "Build yor brand",
+    cat: "graphics-design",
+    title: "Graphics & Design",
+    desc: "Build your brand",
     img: "https://images.pexels.com/photos/11295165/pexels-photo-11295165.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/graphics-design.d32a2f8.svg",
   },
   {
-    id: 3,
-    title: "WordPress",
-    desc: "Customize your site",
-    img: "https://images.pexels.com/photos/4371669/pexels-photo-4371669.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-  },
-  {
-    id: 4,
-    title: "Voice Over",
-    desc: "Share your message",
-    img: "https://images.pexels.com/photos/7608079/pexels-photo-7608079.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-  },
-  {
-    id: 5,
-    title: "Video Explainer",
-    desc: "Engage your audience",
-    img: "https://images.pexels.com/photos/13388047/pexels-photo-13388047.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-  },
-  {
-    id: 6,
-    title: "Social Media",
+    cat: "digital-marketing",
+    title: "Digital Marketing",
     desc: "Reach more customers",
     img: "https://images.pexels.com/photos/11378899/pexels-photo-11378899.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/online-marketing.74e221b.svg",
   },
   {
-    id: 7,
-    title: "SEO",
-    desc: "Unlock growth online",
-    img: "https://images.pexels.com/photos/4820241/pexels-photo-4820241.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    cat: "writing-translation",
+    title: "Writing & Translation",
+    desc: "Share your message",
+    img: "https://images.pexels.com/photos/7608079/pexels-photo-7608079.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/writing-translation.32ebe2e.svg",
   },
   {
-    id: 8,
-    title: "Illustration",
-    desc: "Color you dreams",
+    cat: "video-animation",
+    title: "Video & Animation",
+    desc: "Engage your audience",
+    img: "https://images.pexels.com/photos/13388047/pexels-photo-13388047.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/video-animation.f0d9d71.svg",
+  },
+  {
+    cat: "music-audio",
+    title: "Music & Audio",
+    desc: "Give your project a voice",
+    img: "https://images.pexels.com/photos/4088801/pexels-photo-4088801.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/music-audio.320af20.svg",
+  },
+  {
+    cat: "programming-tech",
+    title: "Programming & Tech",
+    desc: "Customize your site",
+    img: "https://images.pexels.com/photos/4371669/pexels-photo-4371669.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/programming.9362366.svg",
+  },
+  {
+    cat: "ai-services",
+    title: "AI Services",
+    desc: "Add talent to AI",
+    img: "https://images.pexels.com/photos/7532110/pexels-photo-7532110.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/data.718910f.svg",
+  },
+  {
+    cat: "business",
+    title: "Business",
+    desc: "Grow your company",
+    img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/business.bbdf319.svg",
+  },
+  {
+    cat: "data",
+    title: "Data",
+    desc: "Turn numbers into answers",
+    img: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/data.718910f.svg",
+  },
+  {
+    cat: "photography",
+    title: "Photography",
+    desc: "Capture your moments",
+    img: "https://images.pexels.com/photos/1264210/pexels-photo-1264210.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/photography.01cf943.svg",
+  },
+  {
+    cat: "lifestyle",
+    title: "Lifestyle",
+    desc: "Invest in yourself",
     img: "https://images.pexels.com/photos/15032623/pexels-photo-15032623.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
+    icon: "https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/apps/lifestyle.745b575.svg",
   },
 ];
 
-export const projects = [
-  {
-    id: 1,
-    img: "https://images.pexels.com/photos/1462935/pexels-photo-1462935.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Web and Mobile Design",
-    username: "Anna Bell",
-  },
-  {
-    id: 2,
-    img: "https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Logo Design",
-    username: "Morton Green",
-  },
-  {
-    id: 3,
-    img: "https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Animated GIFs",
-    username: "Emmett Potter",
-  },
-  {
-    id: 4,
-    img: "https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Packaging Design",
-    username: "Freddie Johnston",
-  },
-  {
-    id: 5,
-    img: "https://images.pexels.com/photos/4458554/pexels-photo-4458554.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Social Media Design",
-    username: "Audrey Richards",
-  },
-  {
-    id: 6,
-    img: "https://images.pexels.com/photos/4465831/pexels-photo-4465831.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1036627/pexels-photo-1036627.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Illustration",
-    username: "Dalton Hudson",
-  },
-  {
-    id: 7,
-    img: "https://images.pexels.com/photos/6077368/pexels-photo-6077368.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Book Design",
-    username: "Hannah Dougherty",
-  },
-  {
-    id: 8,
-    img: "https://images.pexels.com/photos/4065876/pexels-photo-4065876.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1680175/pexels-photo-1680175.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    cat: "Digital Marketing",
-    username: "Ward Brewer",
-  },
-];
-
-export const gigs = [
-  {
-    id: 1,
-    img: "https://images.pexels.com/photos/580151/pexels-photo-580151.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/720598/pexels-photo-720598.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will create ai art character from your images and prompts",
-    price: 59,
-    star: 5,
-    username: "Anna Bell",
-  },
-  {
-    id: 2,
-    img: "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1036627/pexels-photo-1036627.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will create ultra high quality character art with ai",
-    price: 79,
-    star: 5,
-    username: "Lannie Coleman",
-  },
-  {
-    id: 3,
-    img: "https://images.pexels.com/photos/8797307/pexels-photo-8797307.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1062280/pexels-photo-1062280.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will creating unique ai generated artworks mid journey ai artist",
-    price: 112,
-    star: 5,
-    username: "Carol Steve",
-  },
-  {
-    id: 4,
-    img: "https://images.pexels.com/photos/5708069/pexels-photo-5708069.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will create custom ai generated artwork using your photos",
-    price: 99,
-    star: 4,
-    username: "Don Weber",
-  },
-  {
-    id: 5,
-    img: "https://images.pexels.com/photos/5699456/pexels-photo-5699456.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1771383/pexels-photo-1771383.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will recreate your dreams in high quality pictures",
-    price: 59,
-    star: 5,
-    username: "Audrey Richards",
-  },
-  {
-    id: 6,
-    img: "https://images.pexels.com/photos/8100784/pexels-photo-8100784.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/715546/pexels-photo-715546.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will create ai digital art illustration hyper realistic painting",
-    price: 79,
-    star: 4,
-    username: "Walton Shepard ",
-  },
-  {
-    id: 7,
-    img: "https://images.pexels.com/photos/6039245/pexels-photo-6039245.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/720606/pexels-photo-720606.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will generate images with your prompts using ai dalle",
-    price: 89,
-    star: 5,
-    username: "Waverly Schaefer",
-  },
-  {
-    id: 8,
-    img: "https://images.pexels.com/photos/5490778/pexels-photo-5490778.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    pp: "https://images.pexels.com/photos/1699159/pexels-photo-1699159.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    desc: "I will create custom art using midjourney generator",
-    price: 110,
-    star: 4,
-    username: "Wilton Hunt",
-  },
-];
+export const categoryTitle = (cat?: string) =>
+  categories.find((c) => c.cat === cat)?.title || cat || "All Gigs";

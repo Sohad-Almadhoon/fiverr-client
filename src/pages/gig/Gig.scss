@@ -1,12 +1,21 @@
+@use "../../styles/breakpoints" as *;
+
 .gig {
   display: flex;
   justify-content: center;
 
   .container {
-    width: 1400px;
-    padding: 30px 0px;
+    @include page-container;
+    padding-top: 30px;
+    padding-bottom: 30px;
     display: flex;
     gap: 50px;
+
+    // Two columns collapse to one; the sticky buy box moves inline.
+    @include md {
+      flex-direction: column;
+      gap: 30px;
+    }
 
     .left {
       flex: 2;
@@ -19,9 +28,53 @@
         text-transform: uppercase;
         font-size: 13px;
         color: #555;
+
+        .link:hover {
+          color: #1dbf73;
+          text-decoration: underline;
+        }
       }
 
       h1 {
+      }
+
+      // Owner-only performance strip.
+      .ownerStats {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        flex-wrap: wrap;
+        padding: 16px 20px;
+        border: 1px solid #e4e5e7;
+        border-radius: 8px;
+        background-color: #fbfbfb;
+
+        @include xs {
+          gap: 18px;
+        }
+
+        .stat {
+          display: flex;
+          flex-direction: column;
+
+          .value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #404145;
+          }
+
+          .label {
+            font-size: 12px;
+            color: #62646a;
+          }
+        }
+
+        .manage {
+          margin-left: auto;
+          color: #1dbf73;
+          font-weight: 500;
+          font-size: 14px;
+        }
       }
 
       .user {
@@ -59,16 +112,13 @@
         }
       }
 
-      .slider {
-        background-color: #F5F5F5;
-        img {
-          max-height: 500px;
-          object-fit: contain;
-        }
-      }
+      // .slider styling removed with the old <Slide> usage - GigGallery owns
+      // its own presentation now.
 
       h2 {
-        font-weight: 400;
+        font-weight: 500;
+        color: #404145;
+        margin: 10px 0 0;
       }
 
       p {
@@ -88,9 +138,16 @@
           align-items: center;
           gap: 20px;
 
+          @include xs {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+          }
+
           img {
             width: 100px;
             height: 100px;
+            flex-shrink: 0;
             border-radius: 50%;
             object-fit: cover;
           }
@@ -139,6 +196,10 @@
 
             .item {
               width: 300px;
+
+              @include sm {
+                width: 100%;
+              }
               display: flex;
               flex-direction: column;
               gap: 10px;
@@ -230,69 +291,116 @@
       flex-direction: column;
       gap: 20px;
       height: max-content;
-      max-height: 500px;
+      // No max-height: a gig with several features had its Continue button
+      // clipped out of the box entirely.
       position: sticky;
-      top: 150px;
+      top: 100px;
+
+      @include md {
+        position: static;
+      }
 
       .price {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         justify-content: space-between;
+        gap: 12px;
 
         h2{
-          font-weight: 300;
+          font-weight: 600;
+          color: #404145;
+          white-space: nowrap;
         }
 
         h3{
           font-weight: 500;
+          color: #404145;
         }
       }
 
       p{
         color: gray;
-        margin: 10px 0px;
+        margin: 0;
+        line-height: 1.6;
       }
 
       .details {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 12px;
         font-size: 14px;
+        color: #62646a;
+        font-weight: 500;
 
         .item {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
 
           img {
-            width: 20px;
+            width: 18px;
           }
         }
       }
 
       .features{
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
         .item{
           display: flex;
           align-items: center;
           gap: 10px;
           font-weight: 300;
           color: gray;
-          margin-bottom: 5px;
 
           img{
             width: 14px;
+            flex-shrink: 0;
           }
         }
       }
 
       button{
         background-color: #1dbf73;
-        padding: 10px;
+        padding: 14px;
         color: white;
-        font-weight: 500;
+        font-weight: 600;
         border: none;
-        font-size: 18px;
+        border-radius: 6px;
+        font-size: 17px;
         cursor: pointer;
+        width: 100%;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #19a463;
+        }
+      }
+
+      // The buy box grows with its feature list; a hard cap clipped it.
+      .link {
+        display: block;
+      }
+
+      // Shown when ordering is blocked because the account is in selling mode.
+      .modeGate {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        button:disabled {
+          background-color: #b9e5cf;
+          cursor: not-allowed;
+        }
+
+        span {
+          font-size: 13px;
+          line-height: 1.5;
+          color: #74767e;
+        }
       }
     }
   }

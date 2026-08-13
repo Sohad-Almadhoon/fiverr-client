@@ -1,20 +1,50 @@
+@use "../../styles/breakpoints" as *;
+
 .trustedBy {
   background-color: #fafafa;
-  height: 100px;
+  // Was a fixed 100px with a 760px inner row: the five logos overflowed the
+  // strip on anything narrower, and the row clipped instead of wrapping.
+  min-height: 100px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 16px 24px;
+
+  @include sm {
+    padding: 16px;
+  }
 
   .container {
+    width: 100%;
     max-width: 760px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
     color: rgb(200, 200, 200);
     font-weight: 500;
 
-    img{
+    @include sm {
+      gap: 14px;
+    }
+
+    span {
+      white-space: nowrap;
+    }
+
+    img {
       height: 50px;
+      max-width: 100%;
       object-fit: contain;
+
+      @include md {
+        height: 38px;
+      }
+
+      @include xs {
+        height: 26px;
+      }
     }
   }
 }

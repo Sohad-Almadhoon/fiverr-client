@@ -1,13 +1,28 @@
+@use "../../styles/breakpoints" as *;
+
 .register {
   display: flex;
   align-items: center;
   justify-content: center;
 
   form {
-    width: 960px;
-    padding: 100px 0px;
+    @include page-container(960px);
+    padding-top: 100px;
+    padding-bottom: 100px;
     display: flex;
     gap: 120px;
+
+    // Two side-by-side columns are unusable below tablet width.
+    @include md {
+      gap: 50px;
+    }
+
+    @include sm {
+      flex-direction: column;
+      gap: 40px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
 
     h1 {
       color: gray;
@@ -31,6 +46,9 @@
       textarea {
         padding: 20px;
         border: 1px solid rgb(216, 214, 214);
+        // The textarea's cols attribute otherwise forces it wider than a phone.
+        width: 100%;
+        max-width: 100%;
       }
 
       button {
@@ -41,6 +59,33 @@
         font-size: 18px;
         background-color: #1dbf73;
         cursor: pointer;
+      }
+
+      button:disabled {
+        background-color: #a8d5bf;
+        cursor: not-allowed;
+      }
+
+      .formError,
+      .formNotice {
+        padding: 14px 16px;
+        border-radius: 4px;
+        font-size: 15px;
+        line-height: 1.5;
+      }
+
+      .formError {
+        border: 1px solid #e0b4b4;
+        border-left: 4px solid #d0021b;
+        background-color: #fff6f6;
+        color: #9f3a38;
+      }
+
+      .formNotice {
+        border: 1px solid #f0d8a8;
+        border-left: 4px solid #f2a900;
+        background-color: #fffaf3;
+        color: #8a6116;
       }
 
       .toggle {

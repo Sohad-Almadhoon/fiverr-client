@@ -3,13 +3,15 @@ import "./Add.scss";
 import { gigReducer, INITIAL_STATE } from "../../reducers/gigReducer";
 import upload from "../../utils/upload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import newRequest, { getErrorMessage } from "../../utils/newRequest";
 import { useNavigate } from "react-router-dom";
+import { categories } from "../../data";
 
 const Add = () => {
   const [singleFile, setSingleFile] = useState(undefined);
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(gigReducer, INITIAL_STATE);
   const handleChange = (e) => {
@@ -18,17 +20,19 @@ const Add = () => {
       payload: { name: e.target.name, value: e.target.value },
     });
   };
-  console.log(state)
   const handleFeature = (e) => {
     e.preventDefault();
+    const value = e.target[0].value.trim();
+    if (!value) return;
     dispatch({
       type: "ADD_FEATURE",
-      payload: e.target[0].value,
+      payload: value,
     });
     e.target[0].value = "";
   };
   const handleUpload = async () => {
     setUploading(true);
+    setError(null);
     try {
       const cover = await upload(singleFile);
       const images = await Promise.all(
@@ -38,8 +42,8 @@ const Add = () => {
         })
       );
       dispatch({ type: "ADD_IMAGES", payload: { cover, images } });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      setError(getErrorMessage(err));
     } finally {
       setUploading(false);
     }
@@ -51,16 +55,23 @@ const Add = () => {
       return newRequest.post("/gigs", gig);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["myGigs"]);
+      queryClient.invalidateQueries({ queryKey: ["myGigs"] });
+      // Navigate only once the gig actually exists - the old code redirected
+      // immediately and swallowed every failure.
+      navigate("/mygigs");
     },
-    onError: (error) => {
-      console.error("Gig creation failed:", error);
+    onError: (err) => {
+      setError(getErrorMessage(err));
     },
   });
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError(null);
+    if (!state.cover) {
+      setError("Please upload a cover image first.");
+      return;
+    }
     mutation.mutate(state);
-    navigate("/mygigs");
   };
 
   return (
@@ -77,15 +88,18 @@ const Add = () => {
               onChange={handleChange}
             />
             <label htmlFor="">Category</label>
+            {/* Driven by the shared list so the form, the navbar and the API
+                enum can never drift apart again. */}
             <select
               name="cat"
               id="cat"
-              onChange={handleChange}
-              defaultValue="design">
-              <option value="animation">Animation</option>
-              <option value="web">Web Development</option>
-              <option value="design">Design</option>
-              <option value="music">Music</option>
+              value={state.cat}
+              onChange={handleChange}>
+              {categories.map((category) => (
+                <option value={category.cat} key={category.cat}>
+                  {category.title}
+                </option>
+              ))}
             </select>
             <div className="images">
               <div className="imagesInputs">
@@ -101,7 +115,7 @@ const Add = () => {
                   onChange={(e) => setFiles(e.target.files)}
                 />
               </div>
-              <button onClick={handleUpload}>
+              <button onClick={handleUpload} disabled={uploading}>
                 {uploading ? "uploading" : "Upload"}
               </button>
             </div>
@@ -113,7 +127,10 @@ const Add = () => {
               cols="0"
               rows="16"
               onChange={handleChange}></textarea>
-            <button onClick={handleSubmit}>Create</button>
+            <button onClick={handleSubmit} disabled={mutation.isPending}>
+              {mutation.isPending ? "Creating..." : "Create"}
+            </button>
+            {error && <span className="error">{error}</span>}
           </div>
           <div className="details">
             <label htmlFor="">Service Title</label>

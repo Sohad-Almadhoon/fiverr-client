@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as *;
+
 .home {
   .features {
     background-color: #f1fdf7;
@@ -41,10 +43,22 @@
     }
 
     .container {
-      width: 1400px;
+      @include page-container;
       display: flex;
       align-items: center;
       gap: 200px;
+
+      // 200px of gutter plus two columns does not fit a tablet, let alone a
+      // phone.
+      @include lg {
+        gap: 80px;
+      }
+
+      @include md {
+        flex-direction: column;
+        gap: 40px;
+      }
+
       .item {
         display: flex;
         flex-direction: column;
@@ -62,6 +76,10 @@
         h1 {
           font-weight: 500;
           margin-bottom: 10px;
+
+          @include sm {
+            font-size: 28px;
+          }
         }
         .title {
           display: flex;
@@ -81,10 +99,17 @@
           color: gray;
           line-height: 28px;
           letter-spacing: 1px;
+
+          @include sm {
+            font-size: 16px;
+            line-height: 26px;
+          }
         }
 
-        video {
-          width: 720px;
+        video,
+        .illustration {
+          width: 100%;
+          max-width: 720px;
         }
       }
     }
@@ -98,13 +123,37 @@
     //   }
   }
 
+  // Real gigs pulled from the API, replacing the invented "projects" carousel.
+  .popular {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0 80px;
+
+    .container {
+      @include page-container;
+
+      h1 {
+        color: #555;
+        margin-bottom: 10px;
+
+        @include sm {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+
   .explore {
     display: flex;
     justify-content: center;
     padding: 100px 0px;
 
+    @include sm {
+      padding: 50px 0;
+    }
+
     .container {
-      width: 1400px;
+      @include page-container;
 
       h1 {
         color: #555;
@@ -116,9 +165,32 @@
         justify-content: space-between;
         flex-wrap: wrap;
 
+        // space-between leaves ragged gaps once items wrap; a grid keeps the
+        // columns even at every width.
+        @include md {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 20px;
+        }
+
         .item {
           width: 250px;
           height: 150px;
+          color: inherit;
+          text-decoration: none;
+
+          small {
+            font-size: 12px;
+            color: #1dbf73;
+            font-weight: 500;
+            min-height: 16px;
+          }
+
+          @include md {
+            width: 100%;
+            height: auto;
+            padding: 16px 0;
+          }
           display: flex;
           flex-direction: column;
           gap: 10px;

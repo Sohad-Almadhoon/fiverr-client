@@ -1,12 +1,23 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  /* Nothing may push the page sideways on a phone. */
+  overflow-x: hidden;
 }
-* {
-  .link {
-    text-decoration: none;
-    color: inherit;
-  }
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Media never overflows its column. */
+img,
+video {
+  max-width: 100%;
 }

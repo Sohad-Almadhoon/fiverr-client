@@ -1,10 +1,13 @@
+@use "../../styles/breakpoints" as *;
+
 .add {
   display: flex;
   justify-content: center;
 
   .container {
-    width: 1400px;
-    padding: 50px 0px;
+    @include page-container;
+    padding-top: 50px;
+    padding-bottom: 50px;
 
     h1 {
       width: max-content;
@@ -17,6 +20,16 @@
       display: flex;
       justify-content: space-between;
       gap: 100px;
+
+      @include lg {
+        gap: 50px;
+      }
+
+      // Two form columns become one; 100px of gutter is unaffordable here.
+      @include sm {
+        flex-direction: column;
+        gap: 30px;
+      }
 
       label {
         color: gray;
@@ -35,17 +48,24 @@
         select,
         textarea {
           padding: 20px;
+          // Textareas carry a cols attribute that otherwise sets a fixed width
+          // wider than a phone screen.
+          width: 100%;
+          max-width: 100%;
         }
 
         .images{
           display: flex;
           align-items: center;
           gap: 20px;
+          flex-wrap: wrap;
 
           .imagesInputs{
             display: flex;
             flex-direction: column;
             gap: 20px;
+            flex: 1;
+            min-width: 0;
           }
         }
 
@@ -71,6 +91,7 @@
         .addedFeatures{
           display: flex;
           gap: 20px;
+          flex-wrap: wrap;
 
           button{
             height: 30px;

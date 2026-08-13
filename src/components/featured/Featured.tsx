@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import "./Featured.scss";
 import { useNavigate } from "react-router-dom";
+import { categories } from "../../data";
+
+// The four "Popular:" chips were dead buttons with invented labels. These come
+// from the shared category list and actually filter.
+const POPULAR = categories.slice(0, 4);
 
 function Featured() {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = () => {
-    navigate(`/gigs?search=${input}`);
+
+  // A real <form>, so pressing Enter in the field searches. Before, only the
+  // button worked and Enter did nothing at all.
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const term = input.trim();
+    navigate(term ? `/gigs?search=${encodeURIComponent(term)}` : "/gigs");
   };
+
   return (
     <div className="featured">
       <div className="container">
@@ -15,27 +26,33 @@ function Featured() {
           <h1>
             Find the perfect <span>freelance</span> services for your business
           </h1>
-          <div className="search">
+          <form className="search" onSubmit={handleSubmit}>
             <div className="searchInput">
-              <img src="./img/search.png" alt="" />
+              <img src="/img/search.png" alt="" />
               <input
                 type="text"
-                placeholder='Try "building mobil app"'
+                value={input}
+                placeholder='Try "building a mobile app"'
+                aria-label="Search services"
                 onChange={(e) => setInput(e.target.value)}
               />
             </div>
-            <button onClick={handleSubmit}>Search</button>
-          </div>
+            <button type="submit">Search</button>
+          </form>
           <div className="popular">
             <span>Popular:</span>
-            <button>Web Design</button>
-            <button>WordPress</button>
-            <button>Logo Design</button>
-            <button>AI Services</button>
+            {POPULAR.map((category) => (
+              <button
+                type="button"
+                key={category.cat}
+                onClick={() => navigate(`/gigs?cat=${category.cat}`)}>
+                {category.title}
+              </button>
+            ))}
           </div>
         </div>
         <div className="right">
-          <img src="./img/man.png" alt="" />
+          <img src="/img/man.png" alt="" />
         </div>
       </div>
     </div>

@@ -40,5 +40,32 @@
       color: red;
       font-size: 12px;
     }
+
+    button:disabled {
+      background-color: #a8d5bf;
+      cursor: not-allowed;
+    }
+
+    .formError,
+    .formNotice {
+      padding: 14px 16px;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .formError {
+      border: 1px solid #e0b4b4;
+      border-left: 4px solid #d0021b;
+      background-color: #fff6f6;
+      color: #9f3a38;
+    }
+
+    .formNotice {
+      border: 1px solid #f0d8a8;
+      border-left: 4px solid #f2a900;
+      background-color: #fffaf3;
+      color: #8a6116;
+    }
   }
 }

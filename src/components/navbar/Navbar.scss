@@ -1,3 +1,5 @@
+@use "../../styles/breakpoints" as *;
+
 .navbar {
   display: flex;
   flex-direction: column;
@@ -13,25 +15,43 @@
     background-color: white;
     color: black;
 
-    button {
-      background-color: white !important;
-      color: #1dbf73 !important;
-      border: 1px solid #1dbf73 !important;
+    // Scoped to the "Join" button. As a bare `button { ...!important }` this
+    // also hit the burger and the mode switch, painting them white with a
+    // green border.
+    .links .link button {
+      background-color: white;
+      color: #1dbf73;
+      border: 1px solid #1dbf73;
+    }
+
+    // Needs .container to outrank `.navbar .container .burger span` below,
+    // which has equal specificity but comes later in the file - the bars were
+    // rendering white on a white navbar, i.e. invisible.
+    .container .burger span {
+      background-color: black;
+    }
+
+    // The open panel follows the navbar's own colour.
+    .container .links.open {
+      background-color: white;
     }
   }
 
   .container {
-    width: 1400px;
+    @include page-container;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 0px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     .logo {
       font-size: 34px;
       font-weight: bold;
+      white-space: nowrap;
 
-      .text {
+      @include sm {
+        font-size: 26px;
       }
 
       .dot {
@@ -39,6 +59,33 @@
         color: #1dbf73;
       }
     }
+
+    // Hidden on desktop, becomes the only nav control on small screens.
+    .burger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 26px;
+      height: 20px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+
+      span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background-color: white;
+        border-radius: 2px;
+        transition: 0.3s;
+      }
+
+      @include md {
+        display: flex;
+      }
+    }
+
     .links {
       display: flex;
       align-items: center;
@@ -50,39 +97,267 @@
         white-space: nowrap;
       }
 
-      .user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        position: relative;
+      @include lg {
+        gap: 16px;
+        font-size: 14px;
+      }
 
-        img {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
+      // Collapses into a dropdown panel under the header.
+      @include md {
+        display: none;
 
-        .options {
-          position: absolute;
-          top: 50px;
-          right: 0;
-          padding: 20px;
-          background-color: white;
-          border-radius: 10px;
-          z-index: 999;
-          border: 1px solid lightgrey;
+        &.open {
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          width: 200px;
-          font-weight: 300;
-          color: gray;
+          align-items: flex-start;
+          gap: 18px;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          padding: 20px 24px 26px;
+          // An explicit colour, not `inherit`: inherit resolves against
+          // .container, which is transparent, so the page showed straight
+          // through the open menu.
+          background-color: #013914;
+          box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+          border-top: 1px solid rgba(128, 128, 128, 0.25);
+          font-size: 16px;
+          // The category list makes the panel taller than a short phone.
+          max-height: calc(100vh - 100%);
+          overflow-y: auto;
+          overscroll-behavior: contain;
         }
       }
 
-      button {
+      // Categories inside the burger panel. Only meaningful there - on wider
+      // screens the horizontal strip below the header does this job.
+      .mobileCategories {
+        display: none;
+
+        @include md {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
+          width: 100%;
+          padding-top: 16px;
+          border-top: 1px solid rgba(128, 128, 128, 0.3);
+
+          .heading {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            opacity: 0.65;
+          }
+
+          .link {
+            font-size: 15px;
+            font-weight: 400;
+          }
+        }
+      }
+
+      // Seller/buyer switch, outlined so it reads as secondary to "Join".
+      .modeSwitch {
+        color: inherit;
+        background: transparent;
+        border: 1px solid currentColor;
+        border-radius: 20px;
+        padding: 7px 14px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+
+        &:hover:not(:disabled) {
+          background-color: #1dbf73;
+          border-color: #1dbf73;
+          color: white;
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      .user {
+        position: relative;
+
+        .userTrigger {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 4px 8px 4px 4px;
+          border: none;
+          border-radius: 24px;
+          background: transparent;
+          color: inherit;
+          font: inherit;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: rgba(128, 128, 128, 0.15);
+          }
+
+          img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          .uname {
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .caret {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+
+            &.up {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .badge {
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+          color: #1dbf73;
+          border: 1px solid #1dbf73;
+          border-radius: 10px;
+          padding: 1px 7px;
+        }
+
+        // Rebuilt: this was a 200px box of plain grey links with no padding,
+        // no hover target and no separation, sitting on top of the category
+        // strip below the header.
+        .options {
+          position: absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          z-index: 1000;
+          width: 240px;
+          padding: 6px;
+          background-color: white;
+          border: 1px solid #e4e5e7;
+          border-radius: 10px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+          display: flex;
+          flex-direction: column;
+          color: #404145;
+          font-weight: 400;
+          font-size: 15px;
+          text-align: left;
+
+          .who {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #efeff0;
+            margin-bottom: 4px;
+
+            img {
+              width: 36px;
+              height: 36px;
+              border-radius: 50%;
+              object-fit: cover;
+              flex-shrink: 0;
+            }
+
+            .whoText {
+              display: flex;
+              flex-direction: column;
+              min-width: 0;
+
+              .n {
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+
+              .r {
+                font-size: 12px;
+                color: #74767e;
+              }
+            }
+          }
+
+          // Real click targets instead of 19px-tall bare text.
+          .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: #404145;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #f5f5f5;
+            }
+
+            svg {
+              width: 18px;
+              height: 18px;
+              flex-shrink: 0;
+              color: #74767e;
+            }
+
+            &.danger {
+              color: #c0392b;
+
+              svg {
+                color: #c0392b;
+              }
+
+              &:hover {
+                background-color: #fdf2f0;
+              }
+            }
+          }
+
+          .sep {
+            width: 100%;
+            height: 0;
+            margin: 4px 0;
+            border: none;
+            border-top: 1px solid #efeff0;
+          }
+
+          // Inside the stacked mobile panel a floating dropdown has nothing to
+          // float against, so it joins the flow - but it still needs its own
+          // surface, which it previously lacked entirely.
+          @include md {
+            position: static;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: none;
+            background-color: white;
+          }
+        }
+      }
+
+      // Scoped to the "Join" button only. A bare `button` rule also styled the
+      // profile trigger, the mode switch and every item in the dropdown.
+      .link > button {
         color: white;
         padding: 10px 20px;
         border-radius: 5px;
@@ -98,6 +373,11 @@
     }
   }
 
+  // The header is the positioning context for the mobile panel.
+  > .container {
+    position: relative;
+  }
+
   hr {
     width: calc(100% - 2px);
     height: 0;
@@ -106,12 +386,37 @@
   }
 
   .menu {
-    width: 1400px;
-    padding: 10px 0px;
+    @include page-container;
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: flex;
     justify-content: space-between;
     color: gray;
     font-weight: 300;
     font-family: "Montserrat", sans-serif;
+
+    @include lg {
+      gap: 18px;
+      font-size: 14px;
+      justify-content: flex-start;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  // The category strip eats too much height on a phone.
+  @include sm {
+    .menu {
+      display: none;
+    }
+    hr {
+      display: none;
+    }
   }
 }

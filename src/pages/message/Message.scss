@@ -1,22 +1,80 @@
+@use "../../styles/breakpoints" as *;
+
 .message {
   display: flex;
   justify-content: center;
   .container {
-    width: 1200px;
-    margin: 50px;
+    @include page-container($bp-lg);
+    // margin:50px ate 100px of a 375px screen on top of the container padding.
+    margin: 50px 0;
     .breadcrumbs {
       font-weight: 300;
       font-size: 13px;
       color: #555;
+
+      .link:hover {
+        color: #1dbf73;
+        text-decoration: underline;
+      }
     }
+
+    // Header showing who you are talking to. The page previously printed the
+    // logged-in user's own name here and never their picture.
+    .peer {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #e4e5e7;
+      border-radius: 10px;
+      background-color: #fbfbfb;
+
+      img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .peerInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+
+        .name {
+          font-size: 17px;
+          font-weight: 600;
+          color: #404145;
+        }
+
+        .meta {
+          font-size: 13px;
+          color: #74767e;
+          text-transform: capitalize;
+        }
+      }
+    }
+
     .messages {
       margin: 30px 0px;
-      padding: 50px;
+      padding: 30px 50px;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      height: 500px;
-      overflow: scroll;
+      // A fixed height left a tall empty box under short conversations. Grow
+      // with the content, scroll only once it gets long.
+      min-height: 140px;
+      max-height: 500px;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      @include sm {
+        padding: 20px 0;
+        max-height: 60vh;
+      }
 
       .item {
         display: flex;
@@ -24,15 +82,28 @@
         max-width: 600px;
         font-size: 18px;
 
+        @include sm {
+          max-width: 100%;
+          gap: 10px;
+          font-size: 15px;
+        }
+
         &.owner {
           flex-direction: row-reverse;
           align-self: flex-end;
 
-          p {
-            max-width: 500px;
-            border-radius: 20px 0px 20px 20px;
-            background-color: royalblue;
-            color: white;
+          .bubble {
+            align-items: flex-end;
+
+            .sender {
+              text-align: right;
+            }
+
+            p {
+              border-radius: 20px 0px 20px 20px;
+              background-color: royalblue;
+              color: white;
+            }
           }
         }
 
@@ -41,15 +112,39 @@
           height: 40px;
           border-radius: 50%;
           object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        // Wraps the sender label with the bubble so the name sits above the
+        // right message on both sides.
+        .bubble {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          min-width: 0;
+
+          .sender {
+            font-size: 12px;
+            font-weight: 600;
+            color: #74767e;
+          }
         }
 
         p {
+          margin: 0;
           max-width: 500px;
           padding: 20px;
           background-color: rgb(244, 241, 241);
           border-radius: 0px 20px 20px 20px;
           color: gray;
           font-weight: 300;
+          // Long unbroken strings would otherwise widen the page.
+          overflow-wrap: anywhere;
+
+          @include sm {
+            max-width: 100%;
+            padding: 14px;
+          }
         }
       }
     }
@@ -64,13 +159,23 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+
+      @include xs {
+        flex-direction: column;
+        align-items: stretch;
+      }
 
       textarea {
-        width: 80%;
+        // flex instead of 80%, so it shares the row with the button cleanly.
+        flex: 1;
+        min-width: 0;
         height: 100px;
         padding: 10px;
         border: 1px solid lightgray;
         border-radius: 10px;
+        font-family: inherit;
+        resize: vertical;
       }
 
       button{
@@ -82,6 +187,11 @@
         border-radius: 10px;
         cursor: pointer;
         width: 100px;
+        flex-shrink: 0;
+
+        @include xs {
+          width: 100%;
+        }
       }
     }
   }

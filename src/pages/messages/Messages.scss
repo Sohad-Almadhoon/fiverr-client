@@ -1,14 +1,26 @@
+@use "../../styles/breakpoints" as *;
+
 .messages {
   display: flex;
   justify-content: center;
 
   .container {
-    width: 1400px;
-    padding: 50px 0px;
+    @include page-container;
+    padding-top: 50px;
+    padding-bottom: 50px;
 
     .title {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      h1 {
+        @include sm {
+          font-size: 26px;
+        }
+      }
 
       button {
         background-color: #1dbf73;
@@ -22,6 +34,7 @@
 
     table {
       width: 100%;
+      border-collapse: collapse;
 
       tr {
         height: 100px;
@@ -34,7 +47,42 @@
           &:first-child {
             font-weight: 500;
           }
-          
+
+          // Avatar + username of the other party.
+          .counterpart {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            vertical-align: middle;
+
+            img {
+              width: 36px;
+              height: 36px;
+              border-radius: 50%;
+              object-fit: cover;
+              flex-shrink: 0;
+            }
+
+            .name {
+              font-weight: 500;
+              color: #404145;
+            }
+          }
+
+          // Says whether you are the buyer or the seller in this thread.
+          .role {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background-color: #f1f2f3;
+            color: #74767e;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+          }
+
           &:nth-child(2),
           &:nth-child(3) {
             color: gray;
@@ -51,6 +99,33 @@
 
         &.active {
           background-color: #1dbf730f;
+        }
+      }
+
+      @include responsive-table;
+
+      // The unread highlight has to survive the card layout.
+      @include sm {
+        tr.active {
+          border-left: 4px solid #1dbf73;
+        }
+
+        // The card layout right-aligns cell content; keep the avatar next to
+        // the name and let the role chip wrap under them.
+        td:first-child {
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 8px;
+        }
+
+        td:nth-child(2) {
+          // Long previews must wrap, not stretch the card.
+          align-items: flex-start;
+
+          .link {
+            text-align: right;
+            word-break: break-word;
+          }
         }
       }
     }
